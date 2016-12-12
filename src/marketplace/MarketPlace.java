@@ -54,19 +54,20 @@ public class MarketPlace extends UnicastRemoteObject
 
     }
 
+    @Override
     public synchronized void registerClient(TraderIF obj) throws RemoteException {
         clients.put(obj.getID(), obj);
         System.out.println("Client: " + obj + "is now registerd in the MarketPlace");
     }
 
     @Override
-    public void unregisterClient(TraderIF obj) throws RemoteException {
+    public synchronized void unregisterClient(TraderIF obj) throws RemoteException {
         clients.remove(obj);
         System.out.println("Client: " + obj + "is now removed");
     }
 
     @Override
-    public void sell(String name, float price, String clientId) throws RemoteException {
+    public synchronized void sell(String name, float price, String clientId) throws RemoteException {
 
         Item item = new Item(name, price, clientId);
         items.add(item);
@@ -83,7 +84,7 @@ public class MarketPlace extends UnicastRemoteObject
     }
 
     @Override
-    public boolean buy(String name, float price, String clientId) throws RemoteException {
+    public synchronized boolean buy(String name, float price, String clientId) throws RemoteException {
         boolean result;
         Item item = findItem(name, price);
         if (item != null) {
@@ -105,7 +106,7 @@ public class MarketPlace extends UnicastRemoteObject
     }
 
     @Override
-    public void wish(String name, float price, String clientId) throws RemoteException {
+    public synchronized void wish(String name, float price, String clientId) throws RemoteException {
         Item newWish = new Item(name, price, clientId);
         wishItems.add(newWish);
 
@@ -153,12 +154,12 @@ public class MarketPlace extends UnicastRemoteObject
     }
 
     @Override
-    public Map<String, TraderIF> getClients() throws RemoteException {
+    public synchronized Map<String, TraderIF> getClients() throws RemoteException {
         return clients;
     }
 
     @Override
-    public List<Item> getItems() throws RemoteException {
+    public synchronized List<Item> getItems() throws RemoteException {
         return items;
     }
 

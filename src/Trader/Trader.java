@@ -90,12 +90,12 @@ public class Trader extends UnicastRemoteObject implements TraderIF, Runnable {
     }
 
     @Override
-    public void retrieveMsg(String message) {
+    public synchronized void retrieveMsg(String message) {
         System.out.println(message);
     }
 
     @Override
-    public String getID() throws RemoteException {
+    public synchronized String getID() throws RemoteException {
         return traderName;
     }
 
@@ -195,12 +195,12 @@ public class Trader extends UnicastRemoteObject implements TraderIF, Runnable {
     }
 
     @Override
-    public void notifyCustomer(Item item, float price) {
+    public synchronized void notifyCustomer(Item item, float price) {
         System.out.println("You bought an item " + item.getName() + " on price: " + price);
     }
 
     @Override
-    public void notitySeller(Item item, float price) {
+    public synchronized void notitySeller(Item item, float price) {
 
         System.out.println("You sold an item " + item.getName() + " on price: " + price);
     }
